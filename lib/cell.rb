@@ -8,4 +8,11 @@ class Cell
 
   end
 
+  def ship
+    
+  end
+
+  def empty?
+
+  end
 end
