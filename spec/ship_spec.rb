@@ -19,15 +19,24 @@ RSpec.describe do
   end
 
 
-  xit "can track its health" do
-
+  it "can track its health" do
+    expect(cruiser.health).to eq(3)
+    expect(submarine.health).to eq(2)
   end
 
-  xit "take hits" do
-
+  it "take hits" do
+    cruiser.hit
+    expect(cruiser.health).to eq(2)
+    submarine.hit
+    expect(submarine.health).to eq(1)
   end
 
-  xit "can report if sunk or not" do
-
+  it "can report if sunk or not" do
+    cruiser.hit
+    cruiser.hit
+    cruiser.hit
+    expect(cruiser.sunk?).to eq(true)
+    submarine.hit
+    expect(submarine.sunk?).to eq(false)
   end
 end
