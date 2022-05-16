@@ -13,8 +13,9 @@ RSpec.describe do
     expect(submarine.length).to eq(2)
   end
 
-  xit "has a type" do
-
+  it "has a type" do
+    expect(cruiser.type).to eq("Cruiser")
+    expect(submarine.type).to eq("Submarine")
   end
 
 
