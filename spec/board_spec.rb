@@ -35,6 +35,7 @@ RSpec.describe do
       expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq true
       expect(board.valid_placement?(submarine, ["A1", "A2", "A3"])).to eq false
       expect(board.valid_placement?(submarine, ["A1", "A2"])).to eq true
+      expect(board.valid_placement?(submarine, ["A1", "B2"])).to eq false
       expect(board.valid_placement?(cruiser, ["A1", "A2", "A3"])).to eq true
     end
 end
