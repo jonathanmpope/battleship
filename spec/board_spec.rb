@@ -17,6 +17,6 @@ RSpec.describe do
     end
 
     it "has cell objects" do
-      expect(board["A1"]).to be_instance_of Cell
+      expect(board.cells["A1"]).to be_instance_of Cell
     end
 end
