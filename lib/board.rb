@@ -28,10 +28,6 @@ class Board
     }
   end
 
-  # def cells
-  #   @cells
-  # end
-
   def render(*boolean)
 
   end
@@ -45,6 +41,7 @@ class Board
   end
 
   def valid_placement?(ship, array)
+    ship.length == array.length
 
   end
 end
