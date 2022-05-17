@@ -4,6 +4,7 @@ require './lib/board'
 
 RSpec.describe do
   let!(:board) {Board.new}
+  let!(:makes_cells) {board.cells}
   let!(:cruiser) {Ship.new("Cruiser", 3)}
   let!(:submarine) {Ship.new("Submarine", 2)}
 
@@ -29,7 +30,6 @@ RSpec.describe do
     end
 
     it "can check valid placement" do
-      # require "pry"; binding.pry
       expect(board.valid_placement?(cruiser, ["A1", "A2"])).to eq false
       expect(board.valid_placement?(submarine, ["A1", "A5"])).to eq false
       expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq true
@@ -37,5 +37,28 @@ RSpec.describe do
       expect(board.valid_placement?(submarine, ["A1", "A2"])).to eq true
       expect(board.valid_placement?(submarine, ["A1", "B2"])).to eq false
       expect(board.valid_placement?(cruiser, ["A1", "A2", "A3"])).to eq true
+    end
+
+    it "can check if space is occupied" do
+      expect(board.valid_placement?(cruiser, ["A1", "A2", "A3"])).to eq true
+      board.place(cruiser, ["A1", "A2", "A3"])
+      expect(board.valid_placement?(submarine, ["A1", "A2"])).to eq false
+    end
+
+    it "can place ships" do
+      board.place(cruiser, ["A1", "A2", "A3"])
+      cell_1 = board.cells["A1"]
+      cell_2 = board.cells["A2"]
+      cell_3 = board.cells["A3"]
+      cell_1.ship == cell_2.ship
+      cell_2.ship == cell_3.ship
+    end
+
+    xit "can render board properly" do
+
+    end
+
+    xit "can track cells" do
+
     end
 end

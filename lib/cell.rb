@@ -1,7 +1,7 @@
 require_relative 'ship'
 
 class Cell
-  attr_reader :coordinate, :ship, :fired
+  attr_reader :coordinate, :fired
   attr_accessor :ship
 
   def initialize(coordinate)
