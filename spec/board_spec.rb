@@ -11,7 +11,12 @@ RSpec.describe do
       expect(board).to be_instance_of Board
     end
 
-    xit "has cells" do
+    it "has cells" do
+      expect(board.cells).to be_a Hash
+      expect(board.cells.count).to eq(16)
+    end
 
+    it "has cell objects" do
+      expect(board["A1"]).to be_instance_of Cell
     end
 end
