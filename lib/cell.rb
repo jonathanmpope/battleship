@@ -1,11 +1,12 @@
 require_relative 'ship'
 
 class Cell
-  attr_reader :coordinate, :ship
+  attr_reader :coordinate, :ship, :fired
 
   def initialize(coordinate)
     @coordinate = coordinate
     @ship = nil
+    @fired = false
   end
 
   def ship
@@ -19,4 +20,14 @@ class Cell
   def place_ship(type)
     @ship = type
   end
+
+  def fired_upon?
+    @fired
+  end
+
+  def fire_upon
+    # @ship.health -= 1
+    @fired = true
+  end
+
 end
