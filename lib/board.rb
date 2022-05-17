@@ -1,31 +1,28 @@
 require_relative 'helper'
 
 class Board
-  attr_reader :cells
+  attr_reader :cells, :coordinates, :vert_coords
 
   def initialize
+    @coordinates = make_horizontal_coordinates
+    @vert_coords = make_vertical_coordinates
     @cells = make_cells
   end
 
+  def make_horizontal_coordinates
+    letters = ("A".."D").to_a
+    nums = (1..4).to_a
+    @coordinates = letters.product(nums).map {|coord| coord.join('')}
+  end
+
+  def make_vertical_coordinates
+    letters = ("A".."D").to_a
+    nums = (1..4).to_a
+    @vert_coords = nums.product(letters).map {|num| num.join('').reverse}
+  end
+
   def make_cells
-    @cells =
-    { "A1" => Cell.new('A1'),
-      "A2" => Cell.new('A2'),
-      "A3" => Cell.new('A3'),
-      "A4" => Cell.new('A4'),
-      "B1" => Cell.new('B1'),
-      "B2" => Cell.new('B2'),
-      "B3" => Cell.new('B3'),
-      "B4" => Cell.new('B4'),
-      "C1" => Cell.new('C1'),
-      "C2" => Cell.new('C2'),
-      "C3" => Cell.new('C3'),
-      "C4" => Cell.new('C4'),
-      "D1" => Cell.new('D1'),
-      "D2" => Cell.new('D2'),
-      "D3" => Cell.new('D3'),
-      "D4" => Cell.new('D4')
-    }
+    @cells = @coordinates.to_h {|cell| [cell, Cell.new(cell)]}
   end
 
   def render(*boolean)
@@ -40,8 +37,11 @@ class Board
     @cells.has_key?(coordinate)
   end
 
-  def valid_placement?(ship, array)
-    ship.length == array.length
 
+  def valid_placement?(ship, placement)
+    horiz_check = @coordinates.each_cons(placement.length)
+    vert_check = @vert_coords.each_cons(placement.length)
+    return false if ship.length != placement.length
+    horiz_check.any?(placement) || vert_check.any?(placement)
   end
 end
