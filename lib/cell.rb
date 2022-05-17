@@ -35,4 +35,22 @@ class Cell
     end
   end
 
+  def render(show = false)
+    if @fired == true && @ship == nil
+      "M"
+    elsif @fired == true && @ship != nil && @ship.health != 0
+      "H"
+    elsif show == true && @ship != nil
+      "S"
+    elsif @fired == true && @ship != nil && @ship.health == 0
+      "X"
+    else
+      "."
+    end
+  end
+
+  # def sunk?
+  #   @ship.health == 0
+  # end
+
 end
