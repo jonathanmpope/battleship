@@ -4,6 +4,7 @@ require './lib/board'
 
 RSpec.describe do
   let!(:board) {Board.new}
+
   # let!(:cruiser) {Ship.new("Cruiser", 3}
   # let!(:cruiser) {Ship.new("Cruiser", 3}
 
@@ -18,5 +19,13 @@ RSpec.describe do
 
     it "has cell objects" do
       expect(board.cells["A1"]).to be_instance_of Cell
+    end
+
+    it "can validate coordinates" do
+      expect(board.valid_coordinate?("A1")).to be true
+      expect(board.valid_coordinate?("D4")).to be true
+      expect(board.valid_coordinate?("A5")).to be false
+      expect(board.valid_coordinate?("E1")).to be false
+      expect(board.valid_coordinate?("A22")).to be false      
     end
 end

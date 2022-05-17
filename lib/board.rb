@@ -28,9 +28,9 @@ class Board
     }
   end
 
-  def cells
-    @cells
-  end
+  # def cells
+  #   @cells
+  # end
 
   def render(*boolean)
 
@@ -40,8 +40,8 @@ class Board
 
   end
 
-  def valid_coordinate(coordinate)
-
+  def valid_coordinate?(coordinate)
+    @cells.has_key?(coordinate)
   end
 
   def valid_placement?(ship, array)
