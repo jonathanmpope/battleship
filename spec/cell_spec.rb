@@ -29,4 +29,46 @@ RSpec.describe do
     cell.place_ship(cruiser)
     expect(cell.empty?).to eq(false)
   end
+
+  it "can be fired upon" do
+    expect(cell.fired_upon?).to eq(false)
+    cell.fire_upon
+    expect(cell.fired_upon?).to eq(true)
+  end
+
+  it "can change ship health" do
+    cruiser = Ship.new("Cruiser", 3)
+    cell.place_ship(cruiser)
+    cell.fire_upon
+    expect(cell.ship.health).to eq(2)
+  end
+
+  it "can render a string element depending on state" do
+    cell.render
+    expect(cell.render).to eq(".")
+    cell.fire_upon
+    expect(cell.render).to eq("M")
+    cell_2 = Cell.new("C3")
+    cruiser = Ship.new("Cruiser", 3)
+    cell_2.place_ship(cruiser)
+    cell_2.render
+    expect(cell_2.render).to eq(".")
+    cell_2.render(true)
+    expect(cell_2.render(true)).to eq("S")
+    cell_2.fire_upon
+    expect(cell_2.render).to eq("H")
+  end
+
+  it "can see if a ship sinks and changes the render" do
+    cell_2 = Cell.new("C3")
+    cruiser = Ship.new("Cruiser", 3)
+    cell_2.place_ship(cruiser)
+    cell_2.fire_upon
+    expect(cruiser.sunk?).to eq(false)
+    cruiser.hit
+    cruiser.hit
+    expect(cruiser.sunk?).to eq(true)
+    expect(cell_2.render).to eq("X")
+  end
+
 end
