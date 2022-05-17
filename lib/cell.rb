@@ -2,6 +2,7 @@ require_relative 'ship'
 
 class Cell
   attr_reader :coordinate, :ship, :fired
+  attr_accessor :ship
 
   def initialize(coordinate)
     @coordinate = coordinate
@@ -26,8 +27,12 @@ class Cell
   end
 
   def fire_upon
-    # @ship.health -= 1
-    @fired = true
+    if @ship == nil
+      return @fired = true
+    else
+      @ship.health -= 1
+      @fired = true
+    end
   end
 
 end
