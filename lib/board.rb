@@ -32,25 +32,29 @@ class Board
   def valid_placement?(ship, placement)
     return false if ship.length != placement.length
 
+    placement.each do |cell|
+      if valid_coordinate?(cell) == false
+        return false
+      end
+    end
+
+    placement.each do |coord|
+      if @cells[coord].ship != nil
+        return false
+      end
+    end
+
     letters = []
     numbers = []
     letters_ord = []
-    potential_ships = []
 
     placement.each do |coordinate|
       letters << coordinate[0]
       numbers << coordinate[1].to_i
-      potential_ships << @cells[coordinate]
     end
 
     letters.each do |letter|
       letters_ord << letter.ord
-    end
-
-    potential_ships.each do |cell|
-      if cell.class == Cell && cell.ship.class == Ship
-        return false
-      end
     end
 
     if letters.uniq.size == 1 && numbers[-1] == (numbers[0] + (numbers.count - 1))
@@ -61,7 +65,7 @@ class Board
       return false
     end
   end
-
+  
   def place(ship, coordinates)
     coordinates.map {|coord| @cells[coord].place_ship(ship)}
   end
