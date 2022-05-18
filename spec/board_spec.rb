@@ -55,10 +55,13 @@ RSpec.describe do
       cell_2.ship == cell_3.ship
     end
 
+    it "can render board properly" do
+      expect(board.render).to eq("  1 2 3 4\nA . . . .\nB . . . .\nC . . . .\nD . . . .\n")
+    end
 
-
-    xit "can render board properly" do
-
+    it 'can render a board and show ships' do
+    board.place(cruiser, ["A1", "A2", "A3"])
+    expect(board.render(true)).to eq("  1 2 3 4\nA S S S .\nB . . . .\nC . . . .\nD . . . .\n")
     end
 
     xit "can track cells" do
