@@ -30,16 +30,42 @@ class Board
   end
 
   def valid_placement?(ship, placement)
-    horiz_check = @coordinates.each_cons(placement.length)
-    vert_check = @vert_coords.each_cons(placement.length)
     return false if ship.length != placement.length
-    horiz_check.any?(placement) || vert_check.any?(placement)
-    # @cells[placement[0]].empty? == nil ? true : false
-    # @cells[placement[1]].empty? == nil ? true : false
-    # @cells[placement[2]].empty? == nil ? true : false
-    # placement.each {|place| @cells[place].ship == nil ? true : return}
-  end
 
+    placement.each do |cell|
+      if valid_coordinate?(cell) == false
+        return false
+      end
+    end
+
+    placement.each do |coord|
+      if @cells[coord].ship != nil
+        return false
+      end
+    end
+
+    letters = []
+    numbers = []
+    letters_ord = []
+
+    placement.each do |coordinate|
+      letters << coordinate[0]
+      numbers << coordinate[1].to_i
+    end
+
+    letters.each do |letter|
+      letters_ord << letter.ord
+    end
+
+    if letters.uniq.size == 1 && numbers[-1] == (numbers[0] + (numbers.count - 1))
+      return true
+    elsif numbers.uniq.size == 1 && letters_ord[-1] == (letters_ord[0] + (letters.count - 1))
+      return true
+    else
+      return false
+    end
+  end
+  
   def place(ship, coordinates)
     coordinates.map {|coord| @cells[coord].place_ship(ship)}
   end
