@@ -73,37 +73,29 @@ class Board
   end
 
   def render(boolean = false)
-    line_1 = []
-    line_2 = []
-    line_3 = []
-    line_4 = []
-    @coordinates[0..(@letters.length-1)].each do |coordinate|
-      line_1 << @cells[coordinate].render(boolean)
-    end
-    @coordinates[@letters.length..7].each do |coordinate|
-      line_2 << @cells[coordinate].render(boolean)
-    end
-    @coordinates[8..11].each do |coordinate|
-      line_3 << @cells[coordinate].render(boolean)
-    end
-    @coordinates[12..15].each do |coordinate|
-      line_4 << @cells[coordinate].render(boolean)
-    end
-    puts "  #{nums * " "} \n"
-    puts "#{@letters[0]} #{line_1 * " "}"
-    puts "#{@letters[1]} #{line_2 * " "}"
-    puts "#{@letters[2]} #{line_3 * " "}"
-    puts "#{@letters[3]} #{line_4 * " "}"
+    index = 0
+    index_2 = 0
+    index_3 = 0
+    array = []
+    final_board = ""
 
-  end
+    final_board.concat("  #{nums * " "}\n")
+    while index < (letters.length)
+      while index_2 < (index_3 + (@letters.length))
+        array << @cells[@coordinates[index_2]].render(boolean)
+        index_2 += 1
+      end
+    final_board.concat("#{@letters[index]} #{array * " "}\n")
+    index_2
+    index_3 += letters.length
+    array.clear
+    index += 1
+    end
+    puts final_board
+    final_board
+end
 
   def track_cells
 
   end
 end
-
-# board = Board.new
-# board.cells
-# submarine = Ship.new("submarine", 2)
-# board.place(submarine, ["A1", "A2"])
-# board.render (true)
