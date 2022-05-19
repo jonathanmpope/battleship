@@ -28,7 +28,7 @@ class Cell
 
   def fire_upon
     if @ship == nil
-      return @fired = true
+      return 
     else
       @ship.health -= 1
       @fired = true
