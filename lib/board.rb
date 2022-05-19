@@ -1,14 +1,14 @@
 require_relative 'helper'
 
 class Board
-  include Turn
+  # include Turn
   attr_reader :cells,
               :coordinates,
               :vert_coords,
               :letters,
               :nums
 
-  attr_accessor :height, :width
+  attr_accessor :height, :width, :size
 
   def initialize (width = 4, height = "D")
     @height = height
@@ -18,6 +18,7 @@ class Board
     @coordinates = make_horizontal_coordinates
     @vert_coords = make_vertical_coordinates
     @cells = make_cells
+    @size = size
     # @player = current_player
   end
 
@@ -26,13 +27,15 @@ class Board
     @width = gets.chomp.to_i
     puts 'Please choose your board heigtht (a number from 1-20):'
     @height = gets.chomp.to_i
-    @height = (height += 65).chr
-    player_board = Board.new(width, height)
-    computer_board = Board.new(width, height)
+    @height = (@height += 65).chr
+    player_board = Board.new(@width, @height)
+    computer_board = Board.new(@width, @height)
     player_board.cells
     computer_board.cells
     # the next method we'd want to run (probably the ship maker ones I'm working on)
+    ship_build
   end
+
 
   def make_horizontal_coordinates
     @letters = ("A"..height).to_a
@@ -129,3 +132,6 @@ class Board
       puts render
   end
 end
+
+board = Board.new
+board.board_maker
