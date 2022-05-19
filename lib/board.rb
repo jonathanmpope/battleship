@@ -21,6 +21,19 @@ class Board
     # @player = current_player
   end
 
+  def board_maker
+    puts 'Please choose your board width (a number from 1-20):'
+    @width = gets.chomp.to_i
+    puts 'Please choose your board heigtht (a number from 1-20):'
+    @height = gets.chomp.to_i
+    @height = (height += 65).chr
+    player_board = Board.new(width, height)
+    computer_board = Board.new(width, height)
+    player_board.cells
+    computer_board.cells
+    # the next method we'd want to run (probably the ship maker ones I'm working on)
+  end
+
   def make_horizontal_coordinates
     @letters = ("A"..height).to_a
     @nums = (1..width).to_a
@@ -108,7 +121,7 @@ class Board
     final_board
   end
 
-  def track_cells(cell)
+  def fire_on(cell)
       if valid_coordinate?(cell) == false
         return "You can't do that idiot! Choose again!"
       end
