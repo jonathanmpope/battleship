@@ -1,6 +1,7 @@
 require_relative 'helper'
 
 class Board
+  include Turn
   attr_reader :cells, :coordinates, :vert_coords, :letters, :nums
 
   def initialize
@@ -9,6 +10,7 @@ class Board
     @cells = make_cells
     @letters = letters
     @nums = nums
+    @player = current_player
   end
 
   def make_horizontal_coordinates
@@ -68,8 +70,12 @@ class Board
     end
   end
 
-  def place(ship, coordinates)
-    coordinates.map {|coord| @cells[coord].place_ship(ship)}
+  def place(ship_object, coordinates)
+    #place ship class object instead of just ship name
+    #so that ship object is linked to cell
+    coordinates.map do |coord|
+      @cells[coord].place_ship(ship_object)
+    end
   end
 
   def render(boolean = false)

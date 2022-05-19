@@ -4,6 +4,8 @@ class GameRunner
   include Messages
   include Turn
 
+  attr_reader :player, :board
+
   def initialize(player = 'Player', board)
     @input = ''
     @player = player
@@ -33,7 +35,7 @@ class GameRunner
   end
 
   def place_ship
-    @player.fleet[0] 
+    @player.fleet[0]
     @player.fleet.each do |ship|
       puts messages[:place_ship]
       coordinates = gets.chomp

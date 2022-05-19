@@ -1,6 +1,7 @@
 require 'helper'
 
 class Player
+  include Turn
   attr_reader :name, :fleet
 
   def initialize(name)
