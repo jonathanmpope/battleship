@@ -23,3 +23,4 @@ module Messages
       game_result: "#{winner} won!"
     }
   end
+end

@@ -13,7 +13,7 @@ class Player
   end
 
   def fleet_health
-    @fleet.each {|ship| ship.health}.sum
+    @fleet.map {|ship| ship.health}.sum
   end
 
 end
