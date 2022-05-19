@@ -2,7 +2,11 @@ require_relative 'helper'
 
 class Board
   include Turn
-  attr_reader :cells, :coordinates, :vert_coords, :letters, :nums
+  attr_reader :cells,
+              :coordinates,
+              :vert_coords,
+              :letters,
+              :nums
 
   def initialize
     @coordinates = make_horizontal_coordinates
@@ -10,7 +14,7 @@ class Board
     @cells = make_cells
     @letters = letters
     @nums = nums
-    @player = current_player
+    # @player = current_player
   end
 
   def make_horizontal_coordinates
@@ -99,9 +103,13 @@ class Board
     end
     puts final_board
     final_board
-end
+  end
 
-  def track_cells
-
+  def track_cells(cell)
+      if valid_coordinate?(cell) == false
+        return "You can't do that idiot! Choose again!"
+      end
+      @cells[cell].fire_upon
+      render
   end
 end

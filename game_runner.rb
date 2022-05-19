@@ -6,15 +6,9 @@ class GameRunner
 
   attr_reader :player, :board
 
-  def initialize(player = 'Player', board)
+  def initialize(player = 'Player')
     @input = ''
     @player = player
-    @board = make_board
-  end
-
-  def make_board
-    @board = Board.new
-    @board.cells
   end
 
   def welcome
