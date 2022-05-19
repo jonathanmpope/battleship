@@ -1,31 +1,51 @@
 require_relative 'helper'
 
 class Board
-  include Turn
+  # include Turn
   attr_reader :cells,
               :coordinates,
               :vert_coords,
               :letters,
               :nums
 
-  def initialize
+  attr_accessor :height, :width, :size
+
+  def initialize (width = 4, height = "D")
+    @height = height
+    @width = width
+    @letters = letters
+    @nums = nums
     @coordinates = make_horizontal_coordinates
     @vert_coords = make_vertical_coordinates
     @cells = make_cells
-    @letters = letters
-    @nums = nums
+    @size = size
     # @player = current_player
   end
 
+  def board_maker
+    puts 'Please choose your board width (a number from 1-20):'
+    @width = gets.chomp.to_i
+    puts 'Please choose your board heigtht (a number from 1-20):'
+    @height = gets.chomp.to_i
+    @height = (@height += 65).chr
+    player_board = Board.new(@width, @height)
+    computer_board = Board.new(@width, @height)
+    player_board.cells
+    computer_board.cells
+    # the next method we'd want to run (probably the ship maker ones I'm working on)
+    ship_build
+  end
+
+
   def make_horizontal_coordinates
-    @letters = ("A".."D").to_a
-    @nums = (1..4).to_a
+    @letters = ("A"..height).to_a
+    @nums = (1..width).to_a
     @coordinates = letters.product(nums).map {|coord| coord.join('')}
   end
 
   def make_vertical_coordinates
-    @letters = ("A".."D").to_a
-    @nums = (1..4).to_a
+    @letters = ("A"..height).to_a
+    @nums = (1..width).to_a
     @vert_coords = nums.product(letters).map {|num| num.join('').reverse}
   end
 
@@ -91,25 +111,27 @@ class Board
 
     final_board.concat("  #{nums * " "}\n")
     while index < (letters.length)
-      while index_2 < (index_3 + (@letters.length))
+      while index_2 < (index_3 + (@nums.length))
         array << @cells[@coordinates[index_2]].render(boolean)
         index_2 += 1
       end
     final_board.concat("#{@letters[index]} #{array * " "}\n")
     index_2
-    index_3 += letters.length
+    index_3 += @nums.length
     array.clear
     index += 1
     end
-    puts final_board
     final_board
   end
 
-  def track_cells(cell)
+  def fire_on(cell)
       if valid_coordinate?(cell) == false
         return "You can't do that idiot! Choose again!"
       end
       @cells[cell].fire_upon
-      render
+      puts render
   end
 end
+
+board = Board.new
+board.board_maker
