@@ -8,7 +8,7 @@ RSpec.describe do
   let!(:submarine) {Ship.new("Submarine", 2)}
   let!(:player1) {Player.new("Player 1")}
   let!(:computer) {Player.new("Computer")}
-  let!(:new_game) {GameRunner.new(player1, board)}
+  let!(:new_game) {GameRunner.new(player1)}
 
 
   it "is an instance of" do
@@ -30,14 +30,16 @@ RSpec.describe do
     expect(player1.fleet_health).to eq(5)
   end
 
-  xit "can track fleet health after shots fired" do
+  it "can track fleet health after shots fired" do
     board
     makes_cells
     new_game
     computer.make_ship("Cruiser", 3)
     computer.make_ship("Sub", 2)
+    computer.board.place("Cruiser", ['A1', 'A2', 'A3'])
     require "pry"; binding.pry
-    board.place("Cruiser", ['A1', 'A2', 'A3'])
+    player1.make_ship("Cruiser", 3)
+    player1.make_ship("Sub", 2)
     player1.take_shot('A1')
     expect(computer.fleet_health).to eq(4)
   end
