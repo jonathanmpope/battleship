@@ -1,6 +1,7 @@
 require_relative 'helper'
 
 class Board
+  include Turn
   attr_reader :cells,
               :coordinates,
               :vert_coords,
@@ -10,6 +11,8 @@ class Board
   attr_accessor :height,
                 :width,
                 :size
+
+  attr_accessor :height, :width, :size
 
   def initialize (width = 4, height = "D")
     @height = height
@@ -34,7 +37,23 @@ class Board
     computer_board.cells
     # the next method we'd want to run (probably the ship maker ones I'm working on)
     ship_build
+    @player = current_player
   end
+
+  def board_maker
+    puts 'Please choose your board width (a number from 1-20):'
+    @width = gets.chomp.to_i
+    puts 'Please choose your board heigtht (a number from 1-20):'
+    @height = gets.chomp.to_i
+    @height = (@height += 65).chr
+    player_board = Board.new(@width, @height)
+    computer_board = Board.new(@width, @height)
+    player_board.cells
+    computer_board.cells
+    # the next method we'd want to run (probably the ship maker ones I'm working on)
+    ship_build
+  end
+
 
   def make_horizontal_coordinates
     @letters = ("A"..height).to_a
@@ -122,7 +141,6 @@ class Board
     array.clear
     index += 1
     end
-    puts final_board
     final_board
   end
 
@@ -134,3 +152,6 @@ class Board
       puts render
   end
 end
+
+board = Board.new
+board.board_maker
