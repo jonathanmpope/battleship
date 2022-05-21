@@ -67,6 +67,5 @@ RSpec.describe do
     it "can create different size boards" do
       board_2 = Board.new(10, "P")
       expect(board_2.render).to eq("  1 2 3 4 5 6 7 8 9 10\nA . . . . . . . . . .\nB . . . . . . . . . .\nC . . . . . . . . . .\nD . . . . . . . . . .\nE . . . . . . . . . .\nF . . . . . . . . . .\nG . . . . . . . . . .\nH . . . . . . . . . .\nI . . . . . . . . . .\nJ . . . . . . . . . .\nK . . . . . . . . . .\nL . . . . . . . . . .\nM . . . . . . . . . .\nN . . . . . . . . . .\nO . . . . . . . . . .\nP . . . . . . . . . .\n")
-
     end
 end

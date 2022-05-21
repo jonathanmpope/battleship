@@ -1,9 +1,4 @@
-require_relative 'ship'
-require 'cell_states'
-
 class Cell
-  include CellStates
-
   attr_reader :coordinate, :fired
   attr_accessor :ship
 
@@ -40,7 +35,7 @@ class Cell
   end
 
   def fire_away
-    @ship.health -= 177
+    @ship.health -= 1
     @fired = true
   end
 
@@ -58,19 +53,3 @@ class Cell
     end
   end
 end
-
-
-  # def render(show = false)
-  #   return miss if missed?
-  #   return hit if direct_hit?
-  #   return ship_here if show == true && @ship != nil
-  #   return sunk if sinker?
-  #   if show == true && @ship != nil
-  #       "S"
-  #   end
-  #   return '.'
-  # end
-
-  # def sunk?
-  #   @ship.health == 0
-  # end
