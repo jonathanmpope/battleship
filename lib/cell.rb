@@ -1,5 +1,5 @@
 require_relative 'ship'
-require 'cell_states'
+# require 'cell_states'
 
 class Cell
   include CellStates
