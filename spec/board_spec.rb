@@ -1,6 +1,6 @@
-require './lib/ship'
-require './lib/cell'
-require './lib/board'
+require './lib2/ship'
+require './lib2/cell'
+require './lib2/board'
 
 RSpec.describe do
   let!(:board) {Board.new}

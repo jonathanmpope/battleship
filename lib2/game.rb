@@ -6,13 +6,19 @@ class Game
   attr_reader :state,
               :player,
               :computer,
-              :input
+              :input,
+              :ships_placed,
+              :c_ships,
+              :c_board
 
   def initialize
     @state = 'new'
     @player = Player.new('Player 1')
     @computer = Player.new('Computer')
     @input = ''
+    @ships_placed = []
+    @c_board = @computer.board
+    @c_ships = @computer.fleet
   end
 
   def p1_ships
@@ -76,27 +82,25 @@ class Game
   end
 
   def computer_setup
-    ships_placed = []
-    until ships_placed.length == @computer.fleet.length do
-      line_break
-      puts "This is your captain speaking"
-      place_ship
-      @input = gets.chomp
-      @input = @input.split(' ')
-      ship = @computer.fleet.first
-      if computer_board.valid_placement?(ship, @input) == true
-        puts "Let's put her in place"
-        computer_board.place(ship, @input)
-        ships_placed << ship
-        puts "time to rotate!"
-        @computer.fleet.rotate!
+    until @ships_placed.length == @computer.fleet.length do
+      hor_places = computer_board.coordinates.each_cons(@c_ships[0].length).to_a
+      vert_places = computer_board.vert_coords.each_cons(@c_ships[0].length).to_a
+      possibles = hor_places.concat(vert_places)
+      # possibles = places.each_cons(@c_ships[0].length).to_a
+      coordinates = possibles.sample
+      ship = @c_ships[0]
+      if computer_board.valid_placement?(ship, coordinates) == true
+        computer_board.place(ship, coordinates)
+        @ships_placed << ship
+        coordinates = []
+        @c_ships.rotate!
       else
-        line_break
-        invalid_coordinates
+        computer_setup
       end
-      puts "let's go one more time!"
     end
-    puts "hmmm"
+    # I put these in below just to show that it's working. We'll delete them later
+    puts @player.board.render(true)
+    puts @computer.board.render(true)
     player_turn
   end
 
