@@ -1,5 +1,5 @@
-require './lib2/ship'
-require './lib2/cell'
+require './lib/ship'
+require './lib/cell'
 
 RSpec.describe do
   let!(:cell) {Cell.new("B4")}
