@@ -83,8 +83,10 @@ class Game
 
   def computer_setup
     until @ships_placed.length == @computer.fleet.length do
-      places = computer_board.coordinates
-      possibles = places.each_cons(@c_ships[0].length).to_a
+      hor_places = computer_board.coordinates.each_cons(@c_ships[0].length).to_a
+      vert_places = computer_board.vert_coords.each_cons(@c_ships[0].length).to_a
+      possibles = hor_places.concat(vert_places)
+      # possibles = places.each_cons(@c_ships[0].length).to_a
       coordinates = possibles.sample
       ship = @c_ships[0]
       if computer_board.valid_placement?(ship, coordinates) == true
