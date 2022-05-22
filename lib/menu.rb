@@ -1,4 +1,4 @@
-require './lib2/helper'
+require './lib/helper'
 
 game = Game.new
 game.start_game

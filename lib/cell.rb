@@ -1,9 +1,4 @@
-require_relative 'ship'
-# require 'cell_states'
-
 class Cell
-  include CellStates
-
   attr_reader :coordinate, :fired
   attr_accessor :ship
 
@@ -32,7 +27,7 @@ class Cell
 
   def fire_upon
     if @ship == nil
-      return
+      @fired = true
     else
       @ship.health -= 1
       @fired = true
@@ -40,7 +35,7 @@ class Cell
   end
 
   def fire_away
-    @ship.health -= 177
+    @ship.health -= 1
     @fired = true
   end
 
@@ -49,28 +44,14 @@ class Cell
       "M"
     elsif @fired == true && @ship != nil && @ship.health != 0
       "H"
-    elsif show == true && @ship != nil
+    elsif show == true && @ship != nil && @ship.health != 0
       "S"
     elsif @fired == true && @ship != nil && @ship.health == 0
+      "X"
+    elsif @fired == true && @ship != nil && @ship.health == 0 && show == true 
       "X"
     else
       "."
     end
   end
 end
-
-
-  # def render(show = false)
-  #   return miss if missed?
-  #   return hit if direct_hit?
-  #   return ship_here if show == true && @ship != nil
-  #   return sunk if sinker?
-  #   if show == true && @ship != nil
-  #       "S"
-  #   end
-  #   return '.'
-  # end
-
-  # def sunk?
-  #   @ship.health == 0
-  # end
