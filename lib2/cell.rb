@@ -27,7 +27,7 @@ class Cell
 
   def fire_upon
     if @ship == nil
-      return
+      @fired = true
     else
       @ship.health -= 1
       @fired = true
@@ -44,9 +44,11 @@ class Cell
       "M"
     elsif @fired == true && @ship != nil && @ship.health != 0
       "H"
-    elsif show == true && @ship != nil
+    elsif show == true && @ship != nil && @ship.health != 0
       "S"
     elsif @fired == true && @ship != nil && @ship.health == 0
+      "X"
+    elsif @fired == true && @ship != nil && @ship.health == 0 && show == true 
       "X"
     else
       "."

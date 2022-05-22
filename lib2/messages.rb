@@ -16,7 +16,7 @@ module Messages
   end
 
   def place_ship
-    puts "Enter the coordinates for the #{p1_ship_name(0)} (#{@player.fleet[0].length} coordinates).\nFor example: 'A1 A2 A3'"
+    puts "Enter the coordinates for the #{p1_ship_name(0)} (#{@player.fleet[0].length} coordinates).\nFor example: A1 A2 A3"
   end
 
   def invalid_coordinates
@@ -28,7 +28,7 @@ module Messages
   end
 
   def invalid_shot
-    puts "#{coordinate} is not a valid coordinate.\nPlease enter a valid coordinate:\n> "
+    puts "Please enter a valid coordinate:\n> "
   end
 
   def line_break

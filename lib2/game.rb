@@ -9,7 +9,9 @@ class Game
               :input,
               :ships_placed,
               :c_ships,
-              :c_board
+              :c_board,
+              :p_shot_result,
+              :p_shot
 
   def initialize
     @state = 'new'
@@ -86,7 +88,6 @@ class Game
       hor_places = computer_board.coordinates.each_cons(@c_ships[0].length).to_a
       vert_places = computer_board.vert_coords.each_cons(@c_ships[0].length).to_a
       possibles = hor_places.concat(vert_places)
-      # possibles = places.each_cons(@c_ships[0].length).to_a
       coordinates = possibles.sample
       ship = @c_ships[0]
       if computer_board.valid_placement?(ship, coordinates) == true
@@ -98,34 +99,87 @@ class Game
         computer_setup
       end
     end
-    # I put these in below just to show that it's working. We'll delete them later
-    puts @player.board.render(true)
-    puts @computer.board.render(true)
     player_turn
   end
 
   def player_turn
+    puts '=============COMPUTER BOARD============='
+    puts @computer.board.render
+    puts '=============PLAYER BOARD============='
+    puts @player.board.render(true)
     your_shot
-    @input = gets.chomp
-    take_shot(@input)
-    return invalid_shot if valid_shot? == false
-    shot = p1_board.cells[@input]
-    shot.fire_upon
-    shot_result
-    @player.fleet_health == 0 ? end_game : computer_turn
+    player_shot
+  end
+
+  def player_shot
+    @p_shot = gets.chomp
+    if @computer.board.take_shot(@p_shot) == false
+        invalid_shot
+        player_shot
+    elsif @computer.board.cells[@p_shot].render == "M" || @computer.board.cells[@p_shot].render == "H" || @computer.board.cells[@p_shot].render == "X"
+      puts "You already shot there, choose again:"
+      player_shot
+    else
+      @computer.board.cells[@p_shot].fire_upon
+    end
+    @p_shot_result = @computer.board.cells[@p_shot].render
+      if @p_shot_result == "M"
+        @p_shot_result = "was a miss!"
+      elsif @p_shot_result == "H"
+        @p_shot_result = "was a direct hit!"
+      elsif @p_shot_result == "X"
+        @p_shot_result = "sunk a ship!"
+      end
+    # shot = p1_board.cells[@input]
+    # shot.fire_upon
+    # shot_result
+    # require "pry"; binding.pry
+    @computer.fleet_health == 0 ? end_game_p : computer_turn
+    computer_turn
   end
 
   def computer_turn
     shots_available = @player.board.cells.keys
-    shot = shots_available.sample
-    valid_shot?(@player, shot) == true ? shot.fire_upon : computer_turn
-    shot.render(true) == "M" ? computer_missed_shot : computer_made_shot
-    @computer.fleet_health == 0 ? end_game : player_turn
+    c_shot = shots_available.sample
+    # if @player.board.take_shot(c_shot) == false
+    #   computer_turn
+    if @player.board.cells[c_shot].render == "M" || @player.board.cells[c_shot].render == "H" || @player.board.cells[c_shot].render == "X"
+      computer_turn
+    else
+      @player.board.cells[c_shot].fire_upon
+    end
+    c_shot_result = @player.board.cells[c_shot].render
+      if c_shot_result == "M"
+        c_shot_result = "was a miss!"
+      elsif c_shot_result == "H"
+        c_shot_result = "was a direct hit!"
+      elsif c_shot_result == "X"
+        c_shot_result = "sunk a ship!"
+      end
+    puts "Your shot at #{@p_shot} #{@p_shot_result}"
+    puts "My shot on #{c_shot} #{c_shot_result}"
+    # valid_shot?(@player, shot) == true ? shot.fire_upon : computer_turn
+    # shot.render(true) == "M" ? computer_missed_shot : computer_made_shot
+    # require "pry"; binding.pry
+    if @player.fleet_health == 0
+      end_game_c
+    else
+      player_turn
+    end
   end
 
-  def end_game
-    puts game_over
-    Menu.new.start_game
+  def end_game_p
+    # require "pry"; binding.pry
+    puts "You won!"
+    game = Game.new
+    game.start_game
+  end
+
+  def end_game_c
+    # require "pry"; binding.pry
+    puts "I won!"
+    game = Game.new
+    game.start_game
   end
 
 end
