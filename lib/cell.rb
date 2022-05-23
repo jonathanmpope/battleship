@@ -6,7 +6,7 @@ class Cell
     @coordinate = coordinate
     @ship = nil
     @fired = false
-    @cell_state = ''
+    # @cell_state = ''
   end
 
   def ship
@@ -46,12 +46,11 @@ class Cell
       "H"
     elsif show == true && @ship != nil && @ship.health != 0
       "S"
-    elsif @fired == true && @ship != nil && @ship.health == 0
-      "X"
-    elsif @fired == true && @ship != nil && @ship.health == 0 && show == true 
+    elsif @fired == true && @ship != nil && @ship.health == 0 || @fired == true && @ship != nil && @ship.health == 0 && show == true
       "X"
     else
       "."
     end
   end
+
 end

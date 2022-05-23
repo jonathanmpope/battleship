@@ -3,23 +3,21 @@ require './lib/messages'
 
 class Game
   include Messages
-  attr_reader :player, :computer, :p_shot, :p_shot_result
+  attr_reader :player, :computer
 
   def initialize
     @player = Player.new('Player 1')
     @computer = Player.new('Computer')
-    @p_shot = ''
-    @p_shot_result = ''
   end
 
   def start_game
     line_break
     welcome
-    @input = gets.chomp
-    if @input == 'p'
+    input = gets.chomp
+    if input == 'p'
       line_break
       begin_message
-      @player.board.render(true)
+      @player.board.render
       computer_setup
     else
       abort
@@ -27,7 +25,7 @@ class Game
   end
 
   def computer_setup
-    @computer.computer_ship_placement(@computer)
+    @computer.computer_ship_placement
     setup_game
   end
 
@@ -42,7 +40,7 @@ class Game
 
   def player_turn
     computer_board_header
-    puts @computer.board.render
+    puts @computer.board.render(true)
     player_board_header
     puts @player.board.render(true)
     your_shot
@@ -50,24 +48,8 @@ class Game
   end
 
   def player_shot
-    @p_shot = gets.chomp
-    if @computer.board.valid_coordinate?(@p_shot) == false
-      invalid_shot
-      player_shot
-    elsif @computer.board.cells[@p_shot].render == "M" || @computer.board.cells[@p_shot].render == "H" || @computer.board.cells[@p_shot].render == "X"
-      shoot_used_cell
-      player_shot
-    else
-      @computer.board.cells[@p_shot].fire_upon
-    end
-    @p_shot_result = @computer.board.cells[@p_shot].render
-      if @p_shot_result == "M"
-        @p_shot_result = "was a miss!"
-      elsif @p_shot_result == "H"
-        @p_shot_result = "was a direct hit!"
-      elsif @p_shot_result == "X"
-        @p_shot_result = "sunk a ship!"
-      end
+    p_shot = gets.chomp
+    @computer.player_shot_check(p_shot)
     @computer.fleet_health == 0 ? end_game_p : computer_turn
     computer_turn
   end
@@ -75,21 +57,9 @@ class Game
   def computer_turn
     shots_available = @player.board.cells.keys
     c_shot = shots_available.sample
-    if @player.board.cells[c_shot].render == "M" || @player.board.cells[c_shot].render == "H" || @player.board.cells[c_shot].render == "X"
-      computer_turn
-    else
-      @player.board.cells[c_shot].fire_upon
-    end
-    c_shot_result = @player.board.cells[c_shot].render
-      if c_shot_result == "M"
-        c_shot_result = "was a miss!"
-      elsif c_shot_result == "H"
-        c_shot_result = "was a direct hit!"
-      elsif c_shot_result == "X"
-        c_shot_result = "sunk a ship!"
-      end
-    puts "Your shot at #{@p_shot} #{@p_shot_result}"
-    puts "My shot on #{c_shot} #{c_shot_result}"
+    @player.computer_shot_check(c_shot)
+    @computer.player_shot_output
+    @player.computer_shot_output
     @player.fleet_health == 0 ? end_game_c : player_turn
   end
 
@@ -154,3 +124,41 @@ end
 #   puts @computer.board.render(true)
 #   player_turn
 # end
+
+# if @player.board.cells[c_shot].render == "M" || @player.board.cells[c_shot].render == "H" || @player.board.cells[c_shot].render == "X"
+#   computer_turn
+# else
+#   @player.board.cells[c_shot].fire_upon
+# end
+# c_shot_result = @player.board.cells[c_shot].render
+#   if c_shot_result == "M"
+#     c_shot_result = "was a miss!"
+#   elsif c_shot_result == "H"
+#     c_shot_result = "was a direct hit!"
+#   elsif c_shot_result == "X"
+#     c_shot_result = "sunk a ship!"
+#   end
+
+
+#
+# if @computer.board.valid_coordinate?(@p_shot) == false
+#   invalid_shot
+#   player_shot
+# elsif @computer.board.cells[@p_shot].render == "M" || @computer.board.cells[@p_shot].render == "H" || @computer.board.cells[@p_shot].render == "X"
+#   shoot_used_cell
+#   player_shot
+# else
+#   @computer.board.cells[@p_shot].fire_upon
+# end
+
+# @p_shot_result = @computer.board.cells[@p_shot].render
+#   if @p_shot_result == "M"
+#     @p_shot_result = "was a miss!"
+#   elsif @p_shot_result == "H"
+#     @p_shot_result = "was a direct hit!"
+#   elsif @p_shot_result == "X"
+#     @p_shot_result = "sunk a ship!"
+#   end
+
+# puts "Your shot at #{@p_shot} #{@p_shot_result}"
+# puts "My shot on #{c_shot} #{c_shot_result}"

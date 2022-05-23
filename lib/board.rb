@@ -96,3 +96,25 @@ class Board
   end
 
 end
+
+def render(boolean = false)
+    index = 0
+    index_2 = 0
+    index_3 = 0
+    array = []
+    final_board = ""
+    final_board.concat("  #{nums * " "}\n")
+    (letters.length - 1).times do
+    # while index < (letters.length)
+      while index_2 < (index_3 + (@nums.length))
+        array << @cells[@coordinates[index_2]].render(boolean)
+        index_2 += 1
+      end
+    final_board.concat("#{@letters[index]} #{array * " "}\n")
+    index_2
+    index_3 += @nums.length
+    array.clear
+    index += 1
+    end
+  final_board
+end
