@@ -16,11 +16,13 @@ module Messages
   end
 
   def place_ship
+    puts "================================================"
     puts "Enter the coordinates for the #{fleet[0].type} (#{fleet[0].length} coordinates).\nFor example: A1 A2 A3"
     print "> "
   end
 
   def invalid_coordinates
+    puts "================================================"
     puts "❗️You entered #{@input}.\n❗️Those are invalid coordinates.\n❗️Please try again..."
     print "> "
   end

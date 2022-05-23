@@ -35,18 +35,13 @@ class Player
   def player_ship_placement
     ships_placed = []
     until ships_placed.length == @fleet.length do
-      line_break
       place_ship
-      @input = gets.chomp
-      @input = @input.split(' ')
-      ship = @fleet.first
-      #this should be it's own method
-      if @board.valid_placement?(ship, @input) == true
-        @board.place(ship, @input)
-        ships_placed << ship
+      @input = gets.chomp.split(' ')
+      if @board.valid_placement?(@fleet.first, @input) == true
+        @board.place(@fleet.first, @input)
+        ships_placed << @fleet.first
         @fleet.rotate!
       else
-        line_break
         invalid_coordinates
       end
     end

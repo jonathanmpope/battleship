@@ -1,5 +1,5 @@
 class Board
-  attr_reader :cells, :coordinates, :vert_coords, :letters, :nums, :pl_letters, :pl_numbers, :letters_ord, :final_board, :index, :index_2, :index_3
+  attr_reader :cells, :coordinates, :vert_coords, :letters, :nums, :pl_letters, :pl_numbers, :letters_ord, :final_board
 
   attr_accessor :height, :width
 
@@ -15,9 +15,6 @@ class Board
     @pl_letters = []
     @letters_ord = []
     @final_board = ""
-    @index = 0
-    @index_2 = 0
-    @index_3 = 0
   end
 
   def make_horizontal_coordinates
@@ -102,19 +99,23 @@ class Board
   end
 
   def render(boolean = false)
+      index = 0
+      index_2 = 0
+      index_3 = 0
       array = []
-      @final_board.concat("  #{nums * " "}\n")
+      final_board = ""
+      final_board.concat("  #{nums * " "}\n")
       (letters.length).times do
-        while @index_2 < (@index_3 + (@nums.length))
-          array << @cells[@coordinates[@index_2]].render(boolean)
-          @index_2 += 1
+        while index_2 < (index_3 + (@nums.length))
+          array << @cells[@coordinates[index_2]].render(boolean)
+          index_2 += 1
         end
-      @final_board.concat("#{@letters[@index]} #{array * " "}\n")
-      @index_3 += @nums.length
+      final_board.concat("#{@letters[index]} #{array * " "}\n")
+      index_3 += @nums.length
       array.clear
-      @index += 1
+      index += 1
       end
-    @final_board
+    final_board
   end
 
 end
