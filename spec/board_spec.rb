@@ -68,4 +68,25 @@ RSpec.describe do
       board_2 = Board.new(10, "P")
       expect(board_2.render).to eq("  1 2 3 4 5 6 7 8 9 10\nA . . . . . . . . . .\nB . . . . . . . . . .\nC . . . . . . . . . .\nD . . . . . . . . . .\nE . . . . . . . . . .\nF . . . . . . . . . .\nG . . . . . . . . . .\nH . . . . . . . . . .\nI . . . . . . . . . .\nJ . . . . . . . . . .\nK . . . . . . . . . .\nL . . . . . . . . . .\nM . . . . . . . . . .\nN . . . . . . . . . .\nO . . . . . . . . . .\nP . . . . . . . . . .\n")
     end
+
+    it "can render a hit" do
+      board.place(cruiser, ["A1", "A2", "A3"])
+      board.cells["A1"].fire_upon
+      expect(board.render(true)).to eq("  1 2 3 4\nA H S S .\nB . . . .\nC . . . .\nD . . . .\n")
+    end
+
+    it "can render a miss" do
+      board.place(cruiser, ["A1", "A2", "A3"])
+      board.cells["A4"].fire_upon
+      expect(board.render(true)).to eq("  1 2 3 4\nA S S S M\nB . . . .\nC . . . .\nD . . . .\n")
+    end
+
+    it "can render a sunk ship" do
+      board.place(cruiser, ["A1", "A2", "A3"])
+      board.cells["A1"].fire_upon
+      board.cells["A2"].fire_upon
+      board.cells["A3"].fire_upon
+      expect(board.render(true)).to eq("  1 2 3 4\nA X X X .\nB . . . .\nC . . . .\nD . . . .\n")
+    end
+
 end

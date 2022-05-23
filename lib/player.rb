@@ -19,25 +19,25 @@ class Player
     @fleet.empty? ? "No ships here..." : @fleet_health = @fleet.sum {|ship| ship.health}
   end
 
-  def player_ships(player)
-    ships =  player.fleet
+  def player_ships
+    ships =  @fleet
     ships.map do |ship|
       puts "#{ship.type}: #{ship.length} units"
     end
   end
 
-  def player_ship_placement(player)
+  def player_ship_placement
     ships_placed = []
-    until ships_placed.length == player.fleet.length do
+    until ships_placed.length == @fleet.length do
       line_break
       place_ship
       @input = gets.chomp
       @input = @input.split(' ')
-      ship = player.fleet.first
-      if player.board.valid_placement?(ship, @input) == true
-        player.board.place(ship, @input)
+      ship = @fleet.first
+      if @board.valid_placement?(ship, @input) == true
+        @board.place(ship, @input)
         ships_placed << ship
-        player.fleet.rotate!
+        @fleet.rotate!
       else
         line_break
         invalid_coordinates
@@ -57,8 +57,6 @@ class Player
         computer.board.place(ship, coordinates)
         ships_placed << ship
         computer.fleet.rotate!
-      # else
-      #   computer_ship_placement(computer)
       end
     end
   end

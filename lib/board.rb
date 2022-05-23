@@ -95,11 +95,4 @@ class Board
     final_board
   end
 
-  def take_shot(cell)
-    if valid_coordinate?(cell) == false
-      return false
-    else
-      return true
-    end
-  end
 end

@@ -3,9 +3,9 @@ module Messages
     puts "Welcome to BATTLESHIP\n Enter p to play. Enter q to quit."
   end
 
-  def add_player
-    puts "Please type your name.\nPress `Enter` to continue."
-  end
+  # def add_player
+  #   puts "Please type your name.\nPress `Enter` to continue."
+  # end
 
   def begin_message
     puts "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\nThe Cruiser is 3 units long and the Submarine is 2 units long."
@@ -35,6 +35,11 @@ module Messages
     print "> "
   end
 
+  def shoot_used_cell
+    puts "You already shot there, choose again:"
+    print "> "
+  end
+
   def line_break
     puts "================================================"
   end
@@ -47,19 +52,19 @@ module Messages
     puts "=============PLAYER BOARD============="
   end
 
-  def shot_result
-    puts "Your shot on #{@input} was a miss."
-  end
-
-  def computer_missed_shot
-    puts "My shot on #{shot} was a miss."
-  end
-
-  def computer_made_shot
-    puts "My shot on #{shot} was a hit."
-  end
-
-  def end_game
-    puts "#{winner} won!"
-  end
+  # def shot_result
+  #   puts "Your shot on #{@input} was a miss."
+  # end
+  #
+  # def computer_missed_shot
+  #   puts "My shot on #{shot} was a miss."
+  # end
+  #
+  # def computer_made_shot
+  #   puts "My shot on #{shot} was a hit."
+  # end
+  #
+  # def end_game
+  #   puts "#{winner} won!"
+  # end
 end

@@ -3,47 +3,14 @@ require './lib/messages'
 
 class Game
   include Messages
-  attr_reader :player, :computer
-              # :input,
-              # :ships_placed,
-              # :c_ships,
-              # :c_board,
-              # :p_shot_result,
-              # :p_shot,
-              # :state
+  attr_reader :player, :computer, :p_shot, :p_shot_result
 
   def initialize
-    # @state = 'new'
     @player = Player.new('Player 1')
     @computer = Player.new('Computer')
-    # @input = ''
-    # @ships_placed = []
-    # @c_board = @computer.board
-    # @c_ships = @computer.fleet
+    @p_shot = ''
+    @p_shot_result = ''
   end
-
-  # def p1_ships
-  #   ships =  @player.fleet
-  #   ships.map do |ship|
-  #     puts "#{ship.type}: #{ship.length} units"
-  #   end
-  # end
-
-  # def p1_ship_name(which)
-  #   @player.fleet[which].type
-  # end
-  #
-  # def p1_board
-  #   @player.board
-  # end
-  #
-  # def computer_ship_name(index)
-  #   @computer.fleet[index].type
-  # end
-  #
-  # def computer_board
-  #   @computer.board
-  # end
 
   def start_game
     line_break
@@ -67,9 +34,9 @@ class Game
   def setup_game
     line_break
     ships_to_be_placed
-    @player.player_ships(@player)
+    @player.player_ships
     puts @player.board.render
-    @player.player_ship_placement(@player)
+    @player.player_ship_placement
     player_turn
   end
 
@@ -84,11 +51,11 @@ class Game
 
   def player_shot
     @p_shot = gets.chomp
-    if @computer.board.take_shot(@p_shot) == false
-        invalid_shot
-        player_shot
+    if @computer.board.valid_coordinate?(@p_shot) == false
+      invalid_shot
+      player_shot
     elsif @computer.board.cells[@p_shot].render == "M" || @computer.board.cells[@p_shot].render == "H" || @computer.board.cells[@p_shot].render == "X"
-      puts "You already shot there, choose again:"
+      shoot_used_cell
       player_shot
     else
       @computer.board.cells[@p_shot].fire_upon
