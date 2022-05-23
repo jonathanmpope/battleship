@@ -3,48 +3,47 @@ require './lib/messages'
 
 class Game
   include Messages
-  attr_reader :state,
-              :player,
-              :computer,
-              :input,
-              :ships_placed,
-              :c_ships,
-              :c_board,
-              :p_shot_result,
-              :p_shot
+  attr_reader :player, :computer
+              # :input,
+              # :ships_placed,
+              # :c_ships,
+              # :c_board,
+              # :p_shot_result,
+              # :p_shot,
+              # :state
 
   def initialize
-    @state = 'new'
+    # @state = 'new'
     @player = Player.new('Player 1')
     @computer = Player.new('Computer')
-    @input = ''
-    @ships_placed = []
-    @c_board = @computer.board
-    @c_ships = @computer.fleet
+    # @input = ''
+    # @ships_placed = []
+    # @c_board = @computer.board
+    # @c_ships = @computer.fleet
   end
 
-  def p1_ships
-    ships =  @player.fleet
-    ships.map do |ship|
-      puts "#{ship.type}: #{ship.length} units"
-    end
-  end
+  # def p1_ships
+  #   ships =  @player.fleet
+  #   ships.map do |ship|
+  #     puts "#{ship.type}: #{ship.length} units"
+  #   end
+  # end
 
-  def p1_ship_name(which)
-    @player.fleet[which].type
-  end
-
-  def p1_board
-    @player.board
-  end
-
-  def computer_ship_name(index)
-    @computer.fleet[index].type
-  end
-
-  def computer_board
-    @computer.board
-  end
+  # def p1_ship_name(which)
+  #   @player.fleet[which].type
+  # end
+  #
+  # def p1_board
+  #   @player.board
+  # end
+  #
+  # def computer_ship_name(index)
+  #   @computer.fleet[index].type
+  # end
+  #
+  # def computer_board
+  #   @computer.board
+  # end
 
   def start_game
     line_break
@@ -53,59 +52,31 @@ class Game
     if @input == 'p'
       line_break
       begin_message
-      p1_board.render(true)
-      setup_game
+      @player.board.render(true)
+      computer_setup
     else
       abort
     end
   end
 
+  def computer_setup
+    @computer.computer_ship_placement(@computer)
+    setup_game
+  end
+
   def setup_game
     line_break
     ships_to_be_placed
-    p1_ships
-    ships_placed = []
-    until ships_placed.length == @player.fleet.length do
-      line_break
-      place_ship
-      @input = gets.chomp
-      @input = @input.split(' ')
-      ship = @player.fleet.first
-      if p1_board.valid_placement?(ship, @input) == true
-        p1_board.place(ship, @input)
-        ships_placed << ship
-        @player.fleet.rotate!
-      else
-        line_break
-        invalid_coordinates
-      end
-    end
-    computer_setup
-  end
-
-  def computer_setup
-    until @ships_placed.length == @computer.fleet.length do
-      hor_places = computer_board.coordinates.each_cons(@c_ships[0].length).to_a
-      vert_places = computer_board.vert_coords.each_cons(@c_ships[0].length).to_a
-      possibles = hor_places.concat(vert_places)
-      coordinates = possibles.sample
-      ship = @c_ships[0]
-      if computer_board.valid_placement?(ship, coordinates) == true
-        computer_board.place(ship, coordinates)
-        @ships_placed << ship
-        coordinates = []
-        @c_ships.rotate!
-      else
-        computer_setup
-      end
-    end
+    @player.player_ships(@player)
+    puts @player.board.render
+    @player.player_ship_placement(@player)
     player_turn
   end
 
   def player_turn
-    puts '=============COMPUTER BOARD============='
+    computer_board_header
     puts @computer.board.render
-    puts '=============PLAYER BOARD============='
+    player_board_header
     puts @player.board.render(true)
     your_shot
     player_shot
@@ -152,11 +123,7 @@ class Game
       end
     puts "Your shot at #{@p_shot} #{@p_shot_result}"
     puts "My shot on #{c_shot} #{c_shot_result}"
-    if @player.fleet_health == 0
-      end_game_c
-    else
-      player_turn
-    end
+    @player.fleet_health == 0 ? end_game_c : player_turn
   end
 
   def end_game_p
@@ -172,3 +139,51 @@ class Game
   end
 
 end
+
+# old methods - saving until game works properly
+
+# def setup_game
+#   line_break
+#   ships_to_be_placed
+#   @player.player_ships(@player)
+#   puts @player.board.render
+#   @player.player_ship_placement(@player)
+#   ships_placed = []
+#   until ships_placed.length == @player.fleet.length do
+#     line_break
+#     place_ship
+#     @input = gets.chomp
+#     @input = @input.split(' ')
+#     ship = @player.fleet.first
+#     if p1_board.valid_placement?(ship, @input) == true
+#       p1_board.place(ship, @input)
+#       ships_placed << ship
+#       @player.fleet.rotate!
+#     else
+#       line_break
+#       invalid_coordinates
+#     end
+#   end
+#   computer_setup
+# end
+
+# def computer_setup
+#   @computer.computer_ship_placement(@computer)
+#   until @ships_placed.length == @computer.fleet.length do
+#     hor_places = computer_board.coordinates.each_cons(@c_ships[0].length).to_a
+#     vert_places = computer_board.vert_coords.each_cons(@c_ships[0].length).to_a
+#     possibles = hor_places.concat(vert_places)
+#     coordinates = possibles.sample
+#     ship = @c_ships[0]
+#     if computer_board.valid_placement?(ship, coordinates) == true
+#       computer_board.place(ship, coordinates)
+#       @ships_placed << ship
+#       coordinates = []
+#       @c_ships.rotate!
+#     else
+#       computer_setup
+#     end
+#   end
+#   puts @computer.board.render(true)
+#   player_turn
+# end

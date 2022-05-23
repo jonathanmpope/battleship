@@ -16,27 +16,35 @@ module Messages
   end
 
   def place_ship
-    puts "Enter the coordinates for the #{p1_ship_name(0)} (#{@player.fleet[0].length} coordinates).\nFor example: A1 A2 A3"
+    puts "Enter the coordinates for the #{fleet[0].type} (#{fleet[0].length} coordinates).\nFor example: A1 A2 A3"
+    print "> "
   end
 
   def invalid_coordinates
     puts "❗️You entered #{@input}.\n❗️Those are invalid coordinates.\n❗️Please try again..."
+    print "> "
   end
 
   def your_shot
-    puts "Enter the coordinate for your shot:\n> "
+    puts "Enter the coordinate for your shot:\n"
+    print "> "
   end
 
   def invalid_shot
-    puts "Please enter a valid coordinate:\n> "
+    puts "Please enter a valid coordinate:\n"
+    print "> "
   end
 
   def line_break
     puts "================================================"
   end
 
-  def board_header
-    puts "=============#{current_player}'s BOARD============="
+  def computer_board_header
+    puts "=============COMPUTER BOARD============="
+  end
+
+  def player_board_header
+    puts "=============PLAYER BOARD============="
   end
 
   def shot_result
