@@ -33,11 +33,6 @@ class Cell
     end
   end
 
-  # def fire_away
-  #   @ship.health -= 1
-  #   @fired = true
-  # end
-
   def render(show = false)
     if @fired == true && @ship == nil
       "M"
@@ -53,3 +48,8 @@ class Cell
   end
 
 end
+
+# def fire_away
+#   @ship.health -= 1
+#   @fired = true
+# end

@@ -18,15 +18,15 @@ class Board
   end
 
   def make_horizontal_coordinates
-    @letters = ("A"..height).to_a
-    @nums = (1..width).to_a
-    @coordinates = letters.product(nums).map {|coord| coord.join('')}
+    @letters = ("A"..@height).to_a
+    @nums = (1..@width).to_a
+    @coordinates = letters.product(@nums).map {|coord| coord.join('')}
   end
 
   def make_vertical_coordinates
-    @letters = ("A"..height).to_a
-    @nums = (1..width).to_a
-    @vert_coords = nums.product(letters).map {|num| num.join('').reverse}
+    @letters = ("A"..@height).to_a
+    @nums = (1..@width).to_a
+    @vert_coords = @nums.product(letters).map {|num| num.join('').reverse}
   end
 
   def make_cells

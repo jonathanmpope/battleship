@@ -24,6 +24,11 @@ RSpec.describe do
     expect(submarine.health).to eq(2)
   end
 
+  it "health changes when it gets hit" do
+    cruiser.hit
+    expect(cruiser.health).to eq(2)
+  end
+
   it "take hits" do
     cruiser.hit
     expect(cruiser.health).to eq(2)
