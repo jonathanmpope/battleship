@@ -40,7 +40,7 @@ class Game
 
   def player_turn
     computer_board_header
-    puts @computer.board.render(true)
+    puts @computer.board.render
     player_board_header
     puts @player.board.render(true)
     your_shot

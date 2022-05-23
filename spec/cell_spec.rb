@@ -1,5 +1,4 @@
-require './lib/ship'
-require './lib/cell'
+require 'spec_helper'
 
 RSpec.describe do
   let!(:cell) {Cell.new("B4")}

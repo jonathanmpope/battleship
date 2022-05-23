@@ -40,6 +40,7 @@ class Player
       @input = gets.chomp
       @input = @input.split(' ')
       ship = @fleet.first
+      #this should be it's own method
       if @board.valid_placement?(ship, @input) == true
         @board.place(ship, @input)
         ships_placed << ship

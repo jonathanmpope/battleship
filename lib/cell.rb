@@ -6,7 +6,6 @@ class Cell
     @coordinate = coordinate
     @ship = nil
     @fired = false
-    # @cell_state = ''
   end
 
   def ship

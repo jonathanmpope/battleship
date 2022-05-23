@@ -1,4 +1,4 @@
-require './lib/ship'
+require 'spec_helper'
 
 RSpec.describe do
   let!(:cruiser) {Ship.new("Cruiser", 3)}
