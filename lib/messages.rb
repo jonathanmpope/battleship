@@ -6,7 +6,7 @@ module Messages
 
   def begin_message
     puts "================================================"
-    puts "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\nThe Cruiser is 3 units long and the Submarine is 2 units long."
+    puts "I have laid out my ships on the grid.\n"
   end
 
   def ships_to_be_placed
@@ -84,7 +84,7 @@ module Messages
   end
 
   def ship_ending
-    puts "I hope you had fun building ships"
+    puts "I hope you had fun building ships!"
   end
 
   def ship_naming
@@ -92,5 +92,8 @@ module Messages
     print "> "
   end
 
+  def ship_too_small
+    puts "Your ship can't be zero units long, type in a number (e.g. 3)"
+  end
 
 end

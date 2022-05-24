@@ -45,5 +45,6 @@ def ship_name
       ship_size
     else
       ship_ending
+      setup_game
     end
 end
