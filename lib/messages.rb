@@ -6,7 +6,8 @@ module Messages
 
   def begin_message
     puts "================================================"
-    puts "I have laid out my ships on the grid.\n"
+    puts "********* UPDATE *********"
+    puts "I get the same ships as you and I have laid my ships on the grid."
   end
 
   def ships_to_be_placed
@@ -53,12 +54,16 @@ module Messages
   end
 
   def board_builder_width
-    puts 'Please choose your board width (a number from 1-20):'
+    puts 'Please choose your board width (a number from 4-20):'
     print "> "
   end
 
+  def board_builder_mistake
+    puts "Your board height and width cannot be less than 4 units or greater than 20.\n Start over!"
+  end
+
   def board_builder_height
-    puts 'Please choose your board height (a number from 1-20):'
+    puts 'Please choose your board height (a number from 4-20):'
     print "> "
   end
 

@@ -3,43 +3,55 @@ require './lib/messages'
 
 class Game
   include Messages
-  attr_reader :player, :computer, :ship_length
+  attr_reader :player, :computer, :ship_length, :width, :height
 
   def initialize
     @player = Player.new('Player 1')
     @computer = Player.new('Computer')
     @ship_length = ship_length
+    @width = width
+    @height = height
   end
 
   def start_game
     welcome
     input = gets.chomp
     if input == 'p'
-      board_creator
+      board_creator_1
     else
       abort
     end
   end
 
-  def board_creator
+  def board_creator_1
     board_builder_width
-    width = gets.chomp.to_i
+    @width = gets.chomp.to_i
+      if @width > 20 || @width < 4
+        board_builder_mistake
+        board_creator
+      end
+    board_creator_2
+  end
+
+  def board_creator_2
     board_builder_height
-    height = gets.chomp.to_i
-    height = (height += 64).chr
-    @player.board_creation(width, height)
-    @computer.board_creation(width, height)
+    @height = gets.chomp.to_i
+      if @height > 20 || @height < 4
+        board_builder_mistake
+        board_creator_1
+      end
+    @height = (@height += 64).chr
+    board_creator_3
+  end
+
+  def board_creator_3
+    @player.board_creation(@width, @height)
+    @computer.board_creation(@width, @height)
     player_board
   end
 
   def player_board
-    begin_message
     @player.board.render
-    computer_setup
-  end
-
-  def computer_setup
-    @computer.computer_ship_placement
     ship_build
   end
 
@@ -74,6 +86,7 @@ class Game
     ship_naming
     name = gets.chomp.to_s
     name = @player.make_ship(name, @ship_length)
+    name = @computer.make_ship(name, @ship_length)
     another_ship?
     ship_request = gets.chomp.to_s.downcase
       if ship_request == 'y'
@@ -90,6 +103,12 @@ class Game
     @player.player_ships
     puts @player.board.render
     @player.player_ship_placement
+    computer_setup
+  end
+
+  def computer_setup
+    @computer.computer_ship_placement
+    begin_message
     player_turn
   end
 
