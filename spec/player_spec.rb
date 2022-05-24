@@ -3,6 +3,10 @@ require 'spec_helper'
 RSpec.describe do
   let!(:player1) {Player.new("Player 1")}
   let!(:computer) {Player.new("Computer")}
+  let!(:player_board) {player1.board_creation(4, "D")}
+  let!(:computer_board) {computer.board_creation(4, "D")}
+  let!(:player_fleet) {player1.fleet_build}
+  let!(:computer_fleet) {computer.fleet_build}
 
   it "is an instance of" do
     expect(player1).to be_instance_of Player
@@ -35,7 +39,7 @@ RSpec.describe do
     expect(player1.fleet_health).to eq(4)
   end
 
-  it "can check for valid ship placement based on player intake" do 
+  it "can check for valid ship placement based on player intake" do
     expect(player1.board.valid_placement?(player1.fleet.first,["A1","A2","A3"])).to eq(true)
     expect(player1.board.place(player1.fleet.first, ["A1","A2","A3"])[0].class).to eq(Ship)
   end
