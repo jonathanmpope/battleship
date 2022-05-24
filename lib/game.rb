@@ -14,33 +14,28 @@ class Game
     welcome
     input = gets.chomp
     if input == 'p'
-      board_builder_width
-      width = gets.chomp.to_i
-      board_builder_height
-      height = gets.chomp.to_i
-      height = (height += 65).chr
-      @player.board_creation(width, height)
-      @computer.board_creation(width, height)
-      begin_message
-      @player.board.render
-      computer_setup
+      board_creator
     else
       abort
     end
   end
 
+  def board_creator
+    board_builder_width
+    width = gets.chomp.to_i
+    board_builder_height
+    height = gets.chomp.to_i
+    height = (height += 64).chr
+    @player.board_creation(width, height)
+    @computer.board_creation(width, height)
+    player_board
+  end
 
-  # def start_game
-  #   welcome
-  #   input = gets.chomp
-  #   if input == 'p'
-  #     begin_message
-  #     @player.board.render
-  #     computer_setup
-  #   else
-  #     abort
-  #   end
-  # end
+  def player_board
+    begin_message
+    @player.board.render
+    computer_setup
+  end
 
   def computer_setup
     @computer.computer_ship_placement

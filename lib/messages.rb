@@ -62,4 +62,35 @@ module Messages
     print "> "
   end
 
+  def ship_build?
+    puts "Would you like to make your own custom ships?"
+    puts "Press Y to build some, or S to skip and receive the default ships:"
+    print "> "
+  end
+
+  def ship_size_q
+    puts "How long of a ship do you want to make?"
+    print "> "
+  end
+
+  def ship_size_reject
+    puts "That's too big, choose again"
+  end
+
+  def another_ship?
+    puts "Would you like to build another ship?"
+    puts "Press Y to build another one, or S to skip:"
+    print "> "
+  end
+
+  def ship_ending
+    puts "I hope you had fun building ships"
+  end
+
+  def ship_naming
+    puts "What is the name of your ship?"
+    print "> "
+  end
+
+
 end

@@ -14,6 +14,7 @@ class Player
   def initialize(name)
     @name = name
     @fleet = [Ship.new("Cruiser", 3), Ship.new("Submarine", 2)]
+    # @fleet = []
     @fleet_health = fleet_health
     # @board = Board.new
     @board = board
@@ -24,6 +25,14 @@ class Player
 
   def board_creation(width, height)
     @board = Board.new(width, height)
+  end
+
+  def make_ship(type, length)
+    @fleet << Ship.new(type, length)
+  end
+
+  def fleet_build
+    @fleet = [Ship.new("Cruiser", 3), Ship.new("Submarine", 2)]
   end
 
   def fleet_health
@@ -122,7 +131,4 @@ class Player
     puts "My shot on #{@c_shot} #{c_shot_result}"
   end
 
-    # def make_ship(type, length)
-    #   @fleet << Ship.new(type, length)
-    # end
 end
