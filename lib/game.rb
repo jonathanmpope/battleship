@@ -62,6 +62,7 @@ class Game
         ship_size
       elsif ship_request == 's'
         @player.fleet_build
+        @computer.fleet_build
         setup_game
       else
         ship_build
@@ -114,7 +115,7 @@ class Game
 
   def player_turn
     computer_board_header
-    puts @computer.board.render
+    puts @computer.board.render(true)
     player_board_header
     puts @player.board.render(true)
     your_shot

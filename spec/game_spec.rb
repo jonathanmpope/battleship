@@ -2,6 +2,10 @@ require 'spec_helper'
 
 RSpec.describe do
   let!(:new_game) {Game.new}
+  let!(:player_board) {new_game.player.board_creation(4, "D")}
+  let!(:computer_board) {new_game.computer.board_creation(4, "D")}
+  let!(:player_fleet) {new_game.player.fleet_build}
+  let!(:computer_fleet) {new_game.computer.fleet_build}
 
   it "is an instance of" do
     expect(new_game).to be_instance_of Game
