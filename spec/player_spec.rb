@@ -35,7 +35,7 @@ RSpec.describe do
     expect(player1.fleet_health).to eq(4)
   end
 
-  it "can check for valid ship placement based on player intake" do
+  it "can check for valid ship placement based on player intake" do 
     expect(player1.board.valid_placement?(player1.fleet.first,["A1","A2","A3"])).to eq(true)
     expect(player1.board.place(player1.fleet.first, ["A1","A2","A3"])[0].class).to eq(Ship)
   end

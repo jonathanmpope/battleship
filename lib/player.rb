@@ -15,10 +15,15 @@ class Player
     @name = name
     @fleet = [Ship.new("Cruiser", 3), Ship.new("Submarine", 2)]
     @fleet_health = fleet_health
-    @board = Board.new
+    # @board = Board.new
+    @board = board
     @p_shot = ''
     @c_shot = ''
     @coordinates = ''
+  end
+
+  def board_creation(width, height)
+    @board = Board.new(width, height)
   end
 
   def fleet_health

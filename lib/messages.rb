@@ -1,9 +1,11 @@
 module Messages
   def welcome
+    puts "================================================"
     puts "Welcome to BATTLESHIP\n Enter p to play. Enter q to quit."
   end
 
   def begin_message
+    puts "================================================"
     puts "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\nThe Cruiser is 3 units long and the Submarine is 2 units long."
   end
 
@@ -48,6 +50,16 @@ module Messages
 
   def player_board_header
     puts "=============PLAYER BOARD============="
+  end
+
+  def board_builder_width
+    puts 'Please choose your board width (a number from 1-20):'
+    print "> "
+  end
+
+  def board_builder_height
+    puts 'Please choose your board height (a number from 1-20):'
+    print "> "
   end
 
 end
