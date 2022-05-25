@@ -1,4 +1,4 @@
-require './lib/ship'
+require 'spec_helper'
 
 RSpec.describe do
   let!(:cruiser) {Ship.new("Cruiser", 3)}
@@ -22,6 +22,11 @@ RSpec.describe do
   it "can track its health" do
     expect(cruiser.health).to eq(3)
     expect(submarine.health).to eq(2)
+  end
+
+  it "health changes when it gets hit" do
+    cruiser.hit
+    expect(cruiser.health).to eq(2)
   end
 
   it "take hits" do

@@ -1,5 +1,4 @@
-require './lib/ship'
-require './lib/cell'
+require 'spec_helper'
 
 RSpec.describe do
   let!(:cell) {Cell.new("B4")}
@@ -23,6 +22,12 @@ RSpec.describe do
     expect(cell.ship).to eq(cruiser)
   end
 
+  it "can see ships" do
+    cell.place_ship(cruiser)
+    expect(cell.ship).to eq(cruiser)
+  end
+
+
   it 'is empty unless a ship is there' do
     expect(cell.empty?).to eq(true)
     cell.place_ship(cruiser)
@@ -45,8 +50,8 @@ RSpec.describe do
   it "can render a string element depending on state" do
     cell.render
     expect(cell.render).to eq(".")
-    # cell.fire_upon
-    # expect(cell.render(true)).to eq("M")
+    cell.fire_upon
+    expect(cell.render(true)).to eq("M")
     cell_2.place_ship(cruiser)
     cell_2.render
     expect(cell_2.render).to eq(".")

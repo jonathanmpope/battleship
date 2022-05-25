@@ -3,133 +3,129 @@ require './lib/messages'
 
 class Game
   include Messages
-  attr_reader :state,
-              :player,
-              :computer,
-              :input,
-              :ships_placed,
-              :c_ships,
-              :c_board,
-              :p_shot_result,
-              :p_shot
+  attr_reader :player, :computer, :ship_length, :width, :height
 
   def initialize
-    @state = 'new'
     @player = Player.new('Player 1')
     @computer = Player.new('Computer')
-    @input = ''
-    @ships_placed = []
-    @c_board = @computer.board
-    @c_ships = @computer.fleet
-  end
-
-  def p1_ships
-    ships =  @player.fleet
-    ships.map do |ship|
-      puts "#{ship.type}: #{ship.length} units"
-    end
-  end
-
-  def p1_ship_name(which)
-    @player.fleet[which].type
-  end
-
-  def p1_board
-    @player.board
-  end
-
-  def computer_ship_name(index)
-    @computer.fleet[index].type
-  end
-
-  def computer_board
-    @computer.board
+    @ship_length = ship_length
+    @width = width
+    @height = height
   end
 
   def start_game
-    line_break
     welcome
-    @input = gets.chomp
-    if @input == 'p'
-      line_break
-      begin_message
-      p1_board.render(true)
-      setup_game
+    input = gets.chomp
+    if input == 'p'
+      board_creator_1
     else
       abort
     end
   end
 
-  def setup_game
-    line_break
-    ships_to_be_placed
-    p1_ships
-    ships_placed = []
-    until ships_placed.length == @player.fleet.length do
-      line_break
-      place_ship
-      @input = gets.chomp
-      @input = @input.split(' ')
-      ship = @player.fleet.first
-      if p1_board.valid_placement?(ship, @input) == true
-        p1_board.place(ship, @input)
-        ships_placed << ship
-        @player.fleet.rotate!
-      else
-        line_break
-        invalid_coordinates
+  def board_creator_1
+    board_builder_overview
+    board_builder_width
+    @width = gets.chomp.to_i
+      if @width > 10 || @width < 4
+        board_builder_mistake
+        board_creator_1
       end
-    end
+    board_creator_2
+  end
+
+  def board_creator_2
+    board_builder_height
+    @height = gets.chomp.to_i
+      if @height > 10 || @height < 4
+        board_builder_mistake
+        board_creator_1
+      end
+    @height = (@height += 64).chr
+    board_creator_3
+  end
+
+  def board_creator_3
+    @player.board_creation(@width, @height)
+    @computer.board_creation(@width, @height)
+    player_board
+  end
+
+  def player_board
+    @player.board.render
+    ship_build
+  end
+
+  def ship_build
+    ship_build?
+    ship_request = gets.chomp.to_s.downcase
+      if ship_request == 'y'
+        ship_size
+      elsif ship_request == 's'
+        @player.fleet_build
+        @computer.fleet_build
+        setup_game
+      else
+        ship_build
+      end
+  end
+
+  def ship_size
+    ship_size_q
+    @ship_length = gets.chomp.to_i
+      if @ship_length > @player.board.width ||  @ship_length > @player.board.width
+        ship_size_reject
+        ship_size
+      elsif @ship_length == 0
+        ship_too_small
+        ship_size
+      else
+        ship_name
+      end
+  end
+
+  def ship_name
+    ship_naming
+    name = gets.chomp.to_s
+    name = @player.make_ship(name, @ship_length)
+    name = @computer.make_ship(name, @ship_length)
+    another_ship?
+    ship_request = gets.chomp.to_s.downcase
+      if ship_request == 'y'
+        ship_size
+      else
+        ship_ending
+        setup_game
+      end
+  end
+
+  def setup_game
+    ship_placement_rules
+    ships_to_be_placed
+    @player.player_ships
+    puts @player.board.render
+    @player.player_ship_placement
     computer_setup
   end
 
   def computer_setup
-    until @ships_placed.length == @computer.fleet.length do
-      hor_places = computer_board.coordinates.each_cons(@c_ships[0].length).to_a
-      vert_places = computer_board.vert_coords.each_cons(@c_ships[0].length).to_a
-      possibles = hor_places.concat(vert_places)
-      coordinates = possibles.sample
-      ship = @c_ships[0]
-      if computer_board.valid_placement?(ship, coordinates) == true
-        computer_board.place(ship, coordinates)
-        @ships_placed << ship
-        coordinates = []
-        @c_ships.rotate!
-      else
-        computer_setup
-      end
-    end
+    @computer.computer_ship_placement
+    begin_message
     player_turn
   end
 
   def player_turn
-    puts '=============COMPUTER BOARD============='
-    puts @computer.board.render
-    puts '=============PLAYER BOARD============='
+    computer_board_header
+    puts @computer.board.render(true)
+    player_board_header
     puts @player.board.render(true)
     your_shot
     player_shot
   end
 
   def player_shot
-    @p_shot = gets.chomp
-    if @computer.board.take_shot(@p_shot) == false
-        invalid_shot
-        player_shot
-    elsif @computer.board.cells[@p_shot].render == "M" || @computer.board.cells[@p_shot].render == "H" || @computer.board.cells[@p_shot].render == "X"
-      puts "You already shot there, choose again:"
-      player_shot
-    else
-      @computer.board.cells[@p_shot].fire_upon
-    end
-    @p_shot_result = @computer.board.cells[@p_shot].render
-      if @p_shot_result == "M"
-        @p_shot_result = "was a miss!"
-      elsif @p_shot_result == "H"
-        @p_shot_result = "was a direct hit!"
-      elsif @p_shot_result == "X"
-        @p_shot_result = "sunk a ship!"
-      end
+    p_shot = gets.chomp
+    @computer.player_shot_check(p_shot)
     @computer.fleet_health == 0 ? end_game_p : computer_turn
     computer_turn
   end
@@ -137,36 +133,21 @@ class Game
   def computer_turn
     shots_available = @player.board.cells.keys
     c_shot = shots_available.sample
-    if @player.board.cells[c_shot].render == "M" || @player.board.cells[c_shot].render == "H" || @player.board.cells[c_shot].render == "X"
-      computer_turn
-    else
-      @player.board.cells[c_shot].fire_upon
-    end
-    c_shot_result = @player.board.cells[c_shot].render
-      if c_shot_result == "M"
-        c_shot_result = "was a miss!"
-      elsif c_shot_result == "H"
-        c_shot_result = "was a direct hit!"
-      elsif c_shot_result == "X"
-        c_shot_result = "sunk a ship!"
-      end
-    puts "Your shot at #{@p_shot} #{@p_shot_result}"
-    puts "My shot on #{c_shot} #{c_shot_result}"
-    if @player.fleet_health == 0
-      end_game_c
-    else
-      player_turn
-    end
+    @player.computer_shot_check(c_shot)
+    @computer.player_shot_output
+    @player.computer_shot_output
+    @player.fleet_health == 0 ? end_game_c : player_turn
   end
 
   def end_game_p
-    puts "You won!"
+    @computer.player_shot_output
+    you_won
     game = Game.new
     game.start_game
   end
 
   def end_game_c
-    puts "I won!"
+    i_won
     game = Game.new
     game.start_game
   end

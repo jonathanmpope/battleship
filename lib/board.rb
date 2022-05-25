@@ -1,5 +1,5 @@
 class Board
-  attr_reader :cells, :coordinates, :vert_coords, :letters, :nums
+  attr_reader :cells, :coordinates, :vert_coords, :letters, :nums, :pl_letters, :pl_numbers, :letters_ord, :final_board
 
   attr_accessor :height, :width
 
@@ -11,18 +11,22 @@ class Board
     @coordinates = make_horizontal_coordinates
     @vert_coords = make_vertical_coordinates
     @cells = make_cells
+    @pl_numbers = []
+    @pl_letters = []
+    @letters_ord = []
+    @final_board = ""
   end
 
   def make_horizontal_coordinates
-    @letters = ("A"..height).to_a
-    @nums = (1..width).to_a
-    @coordinates = letters.product(nums).map {|coord| coord.join('')}
+    @letters = ("A"..@height).to_a
+    @nums = (1..@width).to_a
+    @coordinates = letters.product(@nums).map {|coord| coord.join('')}
   end
 
   def make_vertical_coordinates
-    @letters = ("A"..height).to_a
-    @nums = (1..width).to_a
-    @vert_coords = nums.product(letters).map {|num| num.join('').reverse}
+    @letters = ("A"..@height).to_a
+    @nums = (1..@width).to_a
+    @vert_coords = @nums.product(letters).map {|num| num.join('').reverse}
   end
 
   def make_cells
@@ -33,38 +37,65 @@ class Board
     @cells.has_key?(coordinate)
   end
 
-  def valid_placement?(ship, placement)
-    return false if ship.length != placement.length
+  def ship_same_length?(ship, placement)
+    ship.length == placement.length
+  end
 
+  def ship_valid_coordinates?(placement)
     placement.each do |cell|
       if valid_coordinate?(cell) == false
         return false
       end
     end
+    true
+  end
 
+  def ship_not_present?(placement)
     placement.each do |coord|
       if @cells[coord].ship != nil
         return false
       end
     end
+    true
+  end
 
-    letters = []
-    numbers = []
-    letters_ord = []
+  def uniq_cell_placement?(placement)
+    placement.uniq.size == placement.length
+  end
 
+  def placement_map(placement)
     placement.each do |coordinate|
-      letters << coordinate[0]
-      numbers << coordinate[1].to_i
+      @pl_letters << coordinate[0]
+      @pl_numbers << coordinate[1].to_i
     end
-
-    letters.each do |letter|
-      letters_ord << letter.ord
+    @pl_letters.each do |letter|
+      @letters_ord << letter.ord
     end
+  end
 
-    if letters.uniq.size == 1 && numbers[-1] == (numbers[0] + (numbers.count - 1))
+  def vert_hor_check
+    if @pl_letters.uniq.size == 1 && @pl_numbers[-1] == (@pl_numbers[0] + (@pl_numbers.count - 1))
+      clear_arrays
       return true
-    elsif numbers.uniq.size == 1 && letters_ord[-1] == (letters_ord[0] + (letters.count - 1))
+    elsif @pl_numbers.uniq.size == 1 && @letters_ord[-1] == (@letters_ord[0] + (@pl_letters.count - 1))
+      clear_arrays
       return true
+    else
+      clear_arrays
+      return false
+    end
+  end
+
+  def clear_arrays
+    @pl_numbers.clear
+    @pl_letters.clear
+    @letters_ord.clear
+  end
+
+  def valid_placement?(ship, placement)
+    if ship_same_length?(ship, placement) && ship_valid_coordinates?(placement) && uniq_cell_placement?(placement) && ship_not_present?(placement)
+      placement_map(placement)
+      vert_hor_check
     else
       return false
     end
@@ -75,31 +106,37 @@ class Board
   end
 
   def render(boolean = false)
-      index = 0
-      index_2 = 0
-      index_3 = 0
-      array = []
-      final_board = ""
-      final_board.concat("  #{nums * " "}\n")
-      while index < (letters.length)
-        while index_2 < (index_3 + (@nums.length))
-          array << @cells[@coordinates[index_2]].render(boolean)
-          index_2 += 1
-        end
-      final_board.concat("#{@letters[index]} #{array * " "}\n")
-      index_2
-      index_3 += @nums.length
-      array.clear
+    final_board = ""
+    index = 0
+    array = @coordinates.map do |coord|
+      @cells[coord].render(boolean)
+    end
+    final_board.concat("  #{nums * " "}\n")
+    (letters.length).times do
+      final_board.concat("#{@letters[index]} #{array.shift(nums.length) * " "}\n")
       index += 1
-      end
+    end
     final_board
   end
 
-  def take_shot(cell)
-    if valid_coordinate?(cell) == false
-      return false
-    else
-      return true
-    end
-  end
 end
+
+# def render(boolean = false)
+#     index = 0
+#     index_2 = 0
+#     index_3 = 0
+#     array = []
+#     final_board = ""
+#     final_board.concat("  #{nums * " "}\n")
+#     (letters.length).times do
+#       while index_2 < (index_3 + (@nums.length))
+#         array << @cells[@coordinates[index_2]].render(boolean)
+#         index_2 += 1
+#       end
+#     final_board.concat("#{@letters[index]} #{array * " "}\n")
+#     index_3 += @nums.length
+#     array.clear
+#     index += 1
+#     end
+#   final_board
+# end

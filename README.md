@@ -1,30 +1,19 @@
-# Battleship
+# WELCOME TO BATTLESHIP
 
-Presentation points:
+### Setup
+1. From your terminal type in $ git clone git@github.com:brennacodes/battleship.git
 
-- [ ] Demonstration of functional completeness
+1. From your terminal navigate to the main directory "battleship"
 
-Run your runner file, and demonstrate how the game is played in the terminal.  
-If you’ve considered edge cases, make sure you demonstrate that functionality in your demo.
 
-- [ ] Technical quality and organization of the code
+1. From your terminal, in the main directory, run $ ruby lib/menu.rb
 
-At a high level (not line by line), describe how you broke out this game. What classes did you create? What is the responsibility of each class?   
-Why did you choose to design your code in this way?  
-Is there a design decision that you made that you’re particularly proud of?
+### About
 
-- [ ] Identifying code that should be refactored and how it would be refactored
+Battleship is a classic board game where players place one or more ships on a grid board, and then take turns trying to “sink” the other player’s ships by guessing their coordinates. The game ends when one player’s ships are all hit and “sunk”. For more information, [see the Wikipedia page](https://en.wikipedia.org/wiki/Battleship_(game)).
 
-Identify a piece of code that you’d like to refactor. How would you update that code?  
-Are there any parts of your code that you’re unsure/hesitant about? Why?  
-
-- [ ] Discussion of test coverage
-
-Show examples of a unit and an integration test that you wrote.  
-Run your test suite and open coverage report (if you were able to implement simplecov)
-
-- [ ] Discussion of Pairing/version control
-
-How did you all work together? Did you use a particular pairing technique?  
-Walk us through your GitHub insights. How many pull requests did you make? How many commits did you make?  
-Can you identify a PR that was made that demonstrates good commenting/partner review workflow?  
+### Game Features
+* Adjustable board size
+* Custom ship building feature (size and name)
+* Place your own ships
+* Play against the computer 
