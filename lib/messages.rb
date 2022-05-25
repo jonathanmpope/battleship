@@ -66,7 +66,7 @@ module Messages
   end
 
   def board_builder_width
-    puts 'Please choose your board width (a number from 4-20):'
+    puts 'Please choose your board width (a number from 4-10):'
     print "> "
   end
 
@@ -75,7 +75,7 @@ module Messages
   end
 
   def board_builder_height
-    puts 'Please choose your board height (a number from 4-20):'
+    puts 'Please choose your board height (a number from 4-10):'
     print "> "
   end
 

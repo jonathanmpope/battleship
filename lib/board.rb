@@ -106,26 +106,37 @@ class Board
   end
 
   def render(boolean = false)
-      index = 0
-      index_2 = 0
-      index_3 = 0
-      array = []
-      final_board = ""
-      final_board.concat("  #{nums * " "}\n")
-      (letters.length).times do
-        while index_2 < (index_3 + (@nums.length))
-          array << @cells[@coordinates[index_2]].render(boolean)
-          index_2 += 1
-        end
-      final_board.concat("#{@letters[index]} #{array * " "}\n")
-      index_3 += @nums.length
-      array.clear
+    final_board = ""
+    index = 0
+    array = @coordinates.map do |coord|
+      @cells[coord].render(boolean)
+    end
+    final_board.concat("  #{nums * " "}\n")
+    (letters.length).times do
+      final_board.concat("#{@letters[index]} #{array.shift(nums.length) * " "}\n")
       index += 1
-      end
+    end
     final_board
   end
 
 end
 
-# need to add this to the ship placement check
-# return false if placement.uniq.size != placement.length
+# def render(boolean = false)
+#     index = 0
+#     index_2 = 0
+#     index_3 = 0
+#     array = []
+#     final_board = ""
+#     final_board.concat("  #{nums * " "}\n")
+#     (letters.length).times do
+#       while index_2 < (index_3 + (@nums.length))
+#         array << @cells[@coordinates[index_2]].render(boolean)
+#         index_2 += 1
+#       end
+#     final_board.concat("#{@letters[index]} #{array * " "}\n")
+#     index_3 += @nums.length
+#     array.clear
+#     index += 1
+#     end
+#   final_board
+# end

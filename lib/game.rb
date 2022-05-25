@@ -27,7 +27,7 @@ class Game
     board_builder_overview
     board_builder_width
     @width = gets.chomp.to_i
-      if @width > 20 || @width < 4
+      if @width > 10 || @width < 4
         board_builder_mistake
         board_creator_1
       end
@@ -37,7 +37,7 @@ class Game
   def board_creator_2
     board_builder_height
     @height = gets.chomp.to_i
-      if @height > 20 || @height < 4
+      if @height > 10 || @height < 4
         board_builder_mistake
         board_creator_1
       end

@@ -58,27 +58,13 @@ RSpec.describe do
       expect(board.ship_valid_coordinates?(["A4", "A5", "A6"])).to eq(false)
     end
 
-    it "can check valid placement" do
-      expect(board.valid_placement?(cruiser, ["A1", "A2"])).to eq false
-      expect(board.valid_placement?(submarine, ["A1", "A5"])).to eq false
-      expect(board.valid_placement?(cruiser, ["A1", "B1", "C1"])).to eq true
-      expect(board.valid_placement?(cruiser, ["A1", "A1", "A3"])).to eq false
-      expect(board.valid_placement?(cruiser, ["A3", "A4", "B1"])).to eq false
-      expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq true
-      expect(board.valid_placement?(submarine, ["A1", "A2"])).to eq true
-      expect(board.valid_placement?(submarine, ["A1", "B2"])).to eq false
-      expect(board.valid_placement?(cruiser, ["A1", "A2", "A3"])).to eq true
-      board.place(cruiser, ["A1", "A2", "A3"])
-      expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq false
+    it "can check if a placement argument is are all unique cells" do
+      expect(board.uniq_cell_placement?(["A1", "A1", "A3"])).to eq false
     end
 
     it "can check if space is occupied" do
       board.place(cruiser, ["A1", "A2", "A3"])
       expect(board.ship_not_present?(["A1", "A2"])).to eq false
-    end
-
-    it "can check if a placement argument is are all unique cells" do
-      expect(board.uniq_cell_placement?(["A1", "A1", "A3"])).to eq false
     end
 
     it "can create a placement map" do
@@ -97,6 +83,20 @@ RSpec.describe do
       expect(board.vert_hor_check).to eq(false)
       board.placement_map(["A1", "C1"])
       expect(board.vert_hor_check).to eq(false)
+    end
+
+    it "can check valid placement" do
+      expect(board.valid_placement?(cruiser, ["A1", "A2"])).to eq false
+      expect(board.valid_placement?(submarine, ["A1", "A5"])).to eq false
+      expect(board.valid_placement?(cruiser, ["A1", "B1", "C1"])).to eq true
+      expect(board.valid_placement?(cruiser, ["A1", "A1", "A3"])).to eq false
+      expect(board.valid_placement?(cruiser, ["A3", "A4", "B1"])).to eq false
+      expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq true
+      expect(board.valid_placement?(submarine, ["A1", "A2"])).to eq true
+      expect(board.valid_placement?(submarine, ["A1", "B2"])).to eq false
+      expect(board.valid_placement?(cruiser, ["A1", "A2", "A3"])).to eq true
+      board.place(cruiser, ["A1", "A2", "A3"])
+      expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq false
     end
 
     it "can clear arrays" do
