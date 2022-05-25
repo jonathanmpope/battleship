@@ -71,7 +71,7 @@ module Messages
   end
 
   def board_builder_mistake
-    puts "Your board height and width cannot be less than 4 units or greater than 20.\n Start over!"
+    puts "Your board height and width cannot be less than 4 units or greater than 10.\n Start over!"
   end
 
   def board_builder_height
