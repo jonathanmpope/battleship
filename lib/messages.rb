@@ -113,4 +113,12 @@ module Messages
     puts "Your ship can't be zero units long, type in a number (e.g. 3)"
   end
 
+  def i_won
+    puts "HAHAHAHAHAHAHA!!!!!!!!!!!!!!!!\nI WON!\nBetter luck next time."
+  end
+
+  def you_won
+    puts "Fortune must have been smiling upon you today,\nyou somehow beat the mighty computer."
+  end
+
 end

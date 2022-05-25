@@ -48,8 +48,3 @@ class Cell
   end
 
 end
-
-# def fire_away
-#   @ship.health -= 1
-#   @fired = true
-# end

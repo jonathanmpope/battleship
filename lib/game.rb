@@ -29,7 +29,7 @@ class Game
     @width = gets.chomp.to_i
       if @width > 20 || @width < 4
         board_builder_mistake
-        board_creator
+        board_creator_1
       end
     board_creator_2
   end
@@ -140,13 +140,14 @@ class Game
   end
 
   def end_game_p
-    puts "You won!"
+    @computer.player_shot_output
+    you_won
     game = Game.new
     game.start_game
   end
 
   def end_game_c
-    puts "I won!"
+    i_won
     game = Game.new
     game.start_game
   end
