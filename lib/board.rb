@@ -38,7 +38,7 @@ class Board
   end
 
   def ship_same_length?(ship, placement)
-    return false if ship.length != placement.length
+    ship.length == placement.length
   end
 
   def ship_valid_coordinates?(placement)
@@ -47,14 +47,20 @@ class Board
         return false
       end
     end
+    true
   end
 
-  def ship_present?(placement)
+  def ship_not_present?(placement)
     placement.each do |coord|
       if @cells[coord].ship != nil
         return false
       end
     end
+    true
+  end
+
+  def uniq_cell_placement?(placement)
+    placement.uniq.size == placement.length
   end
 
   def placement_map(placement)
@@ -87,11 +93,12 @@ class Board
   end
 
   def valid_placement?(ship, placement)
-    if ship_same_length?(ship, placement) == false || ship_valid_coordinates?(placement) == false || ship_present?(placement) == false
+    if ship_same_length?(ship, placement) && ship_valid_coordinates?(placement) && uniq_cell_placement?(placement) && ship_not_present?(placement)
+      placement_map(placement)
+      vert_hor_check
+    else
       return false
     end
-    placement_map(placement)
-    vert_hor_check
   end
 
   def place(ship, coordinates)
@@ -119,3 +126,6 @@ class Board
   end
 
 end
+
+# need to add this to the ship placement check
+# return false if placement.uniq.size != placement.length

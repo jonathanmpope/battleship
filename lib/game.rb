@@ -24,6 +24,7 @@ class Game
   end
 
   def board_creator_1
+    board_builder_overview
     board_builder_width
     @width = gets.chomp.to_i
       if @width > 20 || @width < 4
@@ -99,7 +100,7 @@ class Game
   end
 
   def setup_game
-    line_break
+    ship_placement_rules
     ships_to_be_placed
     @player.player_ships
     puts @player.board.render

@@ -11,7 +11,15 @@ module Messages
   end
 
   def ships_to_be_placed
+    puts "================================================"
     puts "Your fleet includes the ships below:\n"
+  end
+
+  def ship_placement_rules
+      puts "======== SHIP PLACEMENT RULES ========"
+    puts "1 - Ships coordinates must match ship length."
+    puts "2 - Ships coordinates must be horizontal and ascend in order (A1 A2 A3), or"
+    puts "3 - Ships coordinates must be vertical and descend in order (B2 C2 D2)"
   end
 
   def place_ship
@@ -53,6 +61,10 @@ module Messages
     puts "=============PLAYER BOARD============="
   end
 
+  def board_builder_overview
+    puts "First, we need to build a board."
+  end
+
   def board_builder_width
     puts 'Please choose your board width (a number from 4-20):'
     print "> "
@@ -69,7 +81,7 @@ module Messages
 
   def ship_build?
     puts "Would you like to make your own custom ships?"
-    puts "Press Y to build some, or S to skip and receive the default ships:"
+    puts "Press Y to build some, or S to skip and receive the default (2) ships:"
     print "> "
   end
 
@@ -79,7 +91,7 @@ module Messages
   end
 
   def ship_size_reject
-    puts "That's too big, choose again"
+    puts "That's too big. Your ship cannot be bigger than your board. Choose again"
   end
 
   def another_ship?
