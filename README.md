@@ -1,7 +1,7 @@
 # WELCOME TO BATTLESHIP
 
 ### Setup
-1. From your terminal type in $ git clone git@github.com:brennacodes/battleship.git
+1. From your terminal type in $ git clone git@github.com:jonathanmpope/battleship.git
 
 1. From your terminal navigate to the main directory "battleship"
 
